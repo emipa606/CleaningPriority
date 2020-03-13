@@ -1,6 +1,0 @@
-E:\Steam\steamapps\common\RimWorld\Mods\CleaningPriority\Source\CleaningPriority\obj\Debug\CleaningPriority.csproj.CoreCompileInputs.cache
-E:\Steam\steamapps\common\RimWorld\Mods\CleaningPriority\Source\CleaningPriority\obj\Debug\CleaningPriority.csprojAssemblyReference.cache
-E:\Steam\steamapps\common\RimWorld\Mods\CleaningPriority\1.1\Assemblies\CleaningPriority.dll
-E:\Steam\steamapps\common\RimWorld\Mods\CleaningPriority\1.1\Assemblies\CleaningPriority.pdb
-E:\Steam\steamapps\common\RimWorld\Mods\CleaningPriority\Source\CleaningPriority\obj\Debug\CleaningPriority.dll
-E:\Steam\steamapps\common\RimWorld\Mods\CleaningPriority\Source\CleaningPriority\obj\Debug\CleaningPriority.pdb
