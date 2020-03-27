@@ -45,7 +45,14 @@ namespace CleaningPriority
 				&& (pawn.Map.GetCleaningManager().FilthIsInPriorityAreaSafe(filth) || (forced && pawn.Map.GetCleaningManager().FilthIsInCleaningArea(filth))))
 			{
 				LocalTargetInfo target = t;
-				return pawn.CanReserve(target, 1, -1, null, forced) && filth.TicksSinceThickened >= MinTicksSinceThickened;
+                var canReserve = pawn.CanReserve(target, 1, -1, null, forced);
+                if(!canReserve)
+                {
+
+                    filth.Map.GetComponent<CleaningManager_MapComponent>().MarkNeedToRecalculate(filth);
+                }
+
+                return filth.TicksSinceThickened >= MinTicksSinceThickened;
 			}
 			return false;
 		}

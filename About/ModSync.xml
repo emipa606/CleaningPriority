@@ -2,7 +2,7 @@
 <ModSyncNinjaData>
   <ID>f4f05f6a-8ae3-4d42-b2f5-734cae07b45f</ID>
   <ModName>Cleaning Priority (Continued)</ModName>
-  <Version>1.0.2.0</Version>
+  <Version>1.0.3.0</Version>
   <SaveBreaking>False</SaveBreaking>
   <Host name="Github">
     <Owner>emipa606</Owner>
@@ -12,6 +12,7 @@
     <Branch>master</Branch>
   </Host>
 </ModSyncNinjaData>
+
 
 
 
