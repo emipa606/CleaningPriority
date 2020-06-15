@@ -40,6 +40,14 @@ namespace CleaningPriority
             }
         }
 
+        public List<Area> PrioritizedAreas
+        {
+            get
+            {
+                return priorityList;
+            }
+        }
+
         public List<Area> AddableAreas
         {
             get

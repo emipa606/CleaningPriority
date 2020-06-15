@@ -1,12 +1,14 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
+using Verse;
 using Verse.AI;
 
 namespace CleaningPriority
 {
 	class JobDriver_CleanPrioritizedFilth : JobDriver_CleanFilth
-	{
-		private float cleaningWorkDone;
+    {
+        private const TargetIndex FilthInd = TargetIndex.A;
+        private float cleaningWorkDone;
 		private float totalCleaningWorkDone;
 		private float totalCleaningWorkRequired;
 
@@ -18,7 +20,13 @@ namespace CleaningPriority
 			}
 		}
 
-		protected override IEnumerable<Toil> MakeNewToils()
+        public override bool TryMakePreToilReservations(bool errorOnFailed)
+        {
+            this.pawn.ReserveAsManyAsPossible(this.job.GetTargetQueue(TargetIndex.A), this.job, 1, -1, null);
+            return true;
+        }
+
+        protected override IEnumerable<Toil> MakeNewToils()
 		{
 			Toil initExtractTargetFromQueue = Toils_JobTransforms.ClearDespawnedNullOrForbiddenQueuedTargets(TargetIndex.A, null);
 			yield return initExtractTargetFromQueue;
@@ -60,5 +68,13 @@ namespace CleaningPriority
 			yield return Toils_Jump.Jump(initExtractTargetFromQueue);
 			yield break;
 		}
-	}
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look<float>(ref this.cleaningWorkDone, "cleaningWorkDone", 0f, false);
+            Scribe_Values.Look<float>(ref this.totalCleaningWorkDone, "totalCleaningWorkDone", 0f, false);
+            Scribe_Values.Look<float>(ref this.totalCleaningWorkRequired, "totalCleaningWorkRequired", 0f, false);
+        }
+    }
 }

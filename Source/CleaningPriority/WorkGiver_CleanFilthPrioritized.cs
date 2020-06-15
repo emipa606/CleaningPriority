@@ -38,18 +38,29 @@ namespace CleaningPriority
 			return pawn.Map.GetCleaningManager().FilthInCleaningAreas();
 		}
 
-		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
+        public override bool ShouldSkip(Pawn pawn, bool forced = false)
+        {
+            return pawn.Map.GetCleaningManager().FilthInCleaningAreas().EnumerableCount() == 0;
+        }
+
+        public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Filth filth = t as Filth;
-			if (pawn.Faction == Faction.OfPlayer && filth != null
-				&& (pawn.Map.GetCleaningManager().FilthIsInPriorityAreaSafe(filth) || (forced && pawn.Map.GetCleaningManager().FilthIsInCleaningArea(filth))))
+            if (pawn.Faction != Faction.OfPlayer) return false;
+            if (filth == null) return false;
+            Area effectiveAreaRestriction = null;
+            if(pawn.playerSettings != null && pawn.playerSettings.EffectiveAreaRestriction != null && pawn.playerSettings.EffectiveAreaRestriction.TrueCount > 0 && pawn.playerSettings.EffectiveAreaRestriction.Map == filth.Map)
+			{
+                effectiveAreaRestriction = pawn.playerSettings.EffectiveAreaRestriction;
+            }
+			if (pawn.Map.GetCleaningManager().FilthIsInPriorityAreaSafe(filth) || (forced && pawn.Map.GetCleaningManager().FilthIsInCleaningArea(filth)) || (effectiveAreaRestriction != null && effectiveAreaRestriction[filth.Position]))
 			{
 				LocalTargetInfo target = t;
                 var canReserve = pawn.CanReserve(target, 1, -1, null, forced);
                 if(!canReserve)
                 {
-
                     filth.Map.GetComponent<CleaningManager_MapComponent>().MarkNeedToRecalculate(filth);
+                    return false;
                 }
 
                 return filth.TicksSinceThickened >= MinTicksSinceThickened;
