@@ -19,7 +19,7 @@ namespace CleaningPriority
         private List<Filth> failedFilths = new List<Filth>();
 
         private ListerFilthInAreas_MapComponent areaFilthLister;
-        private CellBoolDrawer priorityAreasDrawer;
+        private readonly CellBoolDrawer priorityAreasDrawer;
 
         public int AreaCount => priorityList.Count;
 
@@ -203,7 +203,7 @@ namespace CleaningPriority
             ListerFilthInAreas_MapComponent filthLister = map.GetListerFilthInAreas();
             for (int i = 0; i < priorityList.Count; i++)
             {
-                foreach (Filth currentFilth in map.GetListerFilthInAreas()[priorityList[i]])
+                foreach (Filth currentFilth in filthLister[priorityList[i]])
                 {
                     if (!currentFilth.DestroyedOrNull() && !failedFilths.Contains(currentFilth) && currentFilth.TicksSinceThickened >= WorkGiver_CleanFilthPrioritized.MinTicksSinceThickened)
                     {

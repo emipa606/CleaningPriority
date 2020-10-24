@@ -16,23 +16,23 @@ namespace CleaningPriority
 		{
 			get
 			{
-				return (Filth)job.GetTarget(TargetIndex.A).Thing;
+				return (Filth)job.GetTarget(FilthInd).Thing;
 			}
 		}
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            this.pawn.ReserveAsManyAsPossible(this.job.GetTargetQueue(TargetIndex.A), this.job, 1, -1, null);
+            this.pawn.ReserveAsManyAsPossible(this.job.GetTargetQueue(FilthInd), this.job, 1, -1, null);
             return true;
         }
 
         protected override IEnumerable<Toil> MakeNewToils()
 		{
-			Toil initExtractTargetFromQueue = Toils_JobTransforms.ClearDespawnedNullOrForbiddenQueuedTargets(TargetIndex.A, null);
+			Toil initExtractTargetFromQueue = Toils_JobTransforms.ClearDespawnedNullOrForbiddenQueuedTargets(FilthInd, null);
 			yield return initExtractTargetFromQueue;
-			yield return Toils_JobTransforms.SucceedOnNoTargetInQueue(TargetIndex.A);
-			yield return Toils_JobTransforms.ExtractNextTargetFromQueue(TargetIndex.A, true);
-			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).JumpIfDespawnedOrNullOrForbidden(TargetIndex.A, initExtractTargetFromQueue);
+			yield return Toils_JobTransforms.SucceedOnNoTargetInQueue(FilthInd);
+			yield return Toils_JobTransforms.ExtractNextTargetFromQueue(FilthInd, true);
+			yield return Toils_Goto.GotoThing(FilthInd, PathEndMode.Touch).JumpIfDespawnedOrNullOrForbidden(FilthInd, initExtractTargetFromQueue);
 			Toil clean = new Toil
 			{
 				initAction = delegate ()
@@ -60,10 +60,10 @@ namespace CleaningPriority
 				}
 			};
 			clean.defaultCompleteMode = ToilCompleteMode.Never;
-			clean.WithEffect(EffecterDefOf.Clean, TargetIndex.A);
-			clean.WithProgressBar(TargetIndex.A, () => totalCleaningWorkDone / totalCleaningWorkRequired, true, -0.5f);
+			clean.WithEffect(EffecterDefOf.Clean, FilthInd);
+			clean.WithProgressBar(FilthInd, () => totalCleaningWorkDone / totalCleaningWorkRequired, true, -0.5f);
 			clean.PlaySustainerOrSound(() => SoundDefOf.Interact_CleanFilth);
-			clean.JumpIfDespawnedOrNullOrForbidden(TargetIndex.A, initExtractTargetFromQueue);
+			clean.JumpIfDespawnedOrNullOrForbidden(FilthInd, initExtractTargetFromQueue);
 			yield return clean;
 			yield return Toils_Jump.Jump(initExtractTargetFromQueue);
 			yield break;

@@ -45,9 +45,8 @@ namespace CleaningPriority
 
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			Filth filth = t as Filth;
             if (pawn.Faction != Faction.OfPlayer) return false;
-            if (filth == null) return false;
+            if (!(t is Filth filth)) return false;
             Area effectiveAreaRestriction = null;
             if(pawn.playerSettings != null && pawn.playerSettings.EffectiveAreaRestriction != null && pawn.playerSettings.EffectiveAreaRestriction.TrueCount > 0 && pawn.playerSettings.EffectiveAreaRestriction.Map == filth.Map)
 			{

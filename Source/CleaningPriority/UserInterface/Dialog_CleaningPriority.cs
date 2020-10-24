@@ -13,10 +13,10 @@ namespace CleaningPriority.UserInterface
 		private const float buttonHeight = 30f;
 
 		private Vector2 scrollPos = new Vector2(0, 0);
-		private Map map;
+		private readonly Map map;
 
-		private HashSet<Area> removeQueue = new HashSet<Area>();
-		private HashSet<Area> addQueue = new HashSet<Area>();
+		private readonly HashSet<Area> removeQueue = new HashSet<Area>();
+		private readonly HashSet<Area> addQueue = new HashSet<Area>();
 
 		public override Vector2 InitialSize => new Vector2(450f, 400f);
 

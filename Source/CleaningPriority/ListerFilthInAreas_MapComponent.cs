@@ -7,7 +7,7 @@ namespace CleaningPriority
 {
 	class ListerFilthInAreas_MapComponent : MapComponent
 	{
-		private Dictionary<Area, List<Thing>> filthDictionary = new Dictionary<Area, List<Thing>>();
+		private readonly Dictionary<Area, List<Thing>> filthDictionary = new Dictionary<Area, List<Thing>>();
 
 		public List<Thing> this[Area area]
 		{
