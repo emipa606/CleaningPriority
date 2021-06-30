@@ -1,42 +1,24 @@
-﻿using RimWorld;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using RimWorld;
 using Verse;
 using Verse.AI;
 
 namespace CleaningPriority
 {
-	class WorkGiver_CleanFilthPrioritized : WorkGiver_Scanner
-	{
-		public static readonly int MinTicksSinceThickened = 600;
+    internal class WorkGiver_CleanFilthPrioritized : WorkGiver_Scanner
+    {
+        public static readonly int MinTicksSinceThickened = 600;
 
-		public override PathEndMode PathEndMode
-		{
-			get
-			{
-				return PathEndMode.Touch;
-			}
-		}
+        public override PathEndMode PathEndMode => PathEndMode.Touch;
 
-		public override ThingRequest PotentialWorkThingRequest
-		{
-			get
-			{
-				return ThingRequest.ForGroup(ThingRequestGroup.Filth);
-			}
-		}
+        public override ThingRequest PotentialWorkThingRequest => ThingRequest.ForGroup(ThingRequestGroup.Filth);
 
-		public override int MaxRegionsToScanBeforeGlobalSearch
+        public override int MaxRegionsToScanBeforeGlobalSearch => 4;
+
+        public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
         {
-			get
-			{
-				return 4;
-			}
-		}
-
-		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
-		{
-			return pawn.Map.GetCleaningManager().FilthInCleaningAreas();
-		}
+            return pawn.Map.GetCleaningManager().FilthInCleaningAreas();
+        }
 
         public override bool ShouldSkip(Pawn pawn, bool forced = false)
         {
@@ -44,62 +26,80 @@ namespace CleaningPriority
         }
 
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
-		{
-            if (pawn.Faction != Faction.OfPlayer) return false;
-            if (!(t is Filth filth)) return false;
+        {
+            if (pawn.Faction != Faction.OfPlayer)
+            {
+                return false;
+            }
+
+            if (!(t is Filth filth))
+            {
+                return false;
+            }
+
             Area effectiveAreaRestriction = null;
-            if(pawn.playerSettings != null && pawn.playerSettings.EffectiveAreaRestriction != null && pawn.playerSettings.EffectiveAreaRestriction.TrueCount > 0 && pawn.playerSettings.EffectiveAreaRestriction.Map == filth.Map)
-			{
+            if (pawn.playerSettings?.EffectiveAreaRestriction != null &&
+                pawn.playerSettings.EffectiveAreaRestriction.TrueCount > 0 &&
+                pawn.playerSettings.EffectiveAreaRestriction.Map == filth.Map)
+            {
                 effectiveAreaRestriction = pawn.playerSettings.EffectiveAreaRestriction;
             }
-			if (pawn.Map.GetCleaningManager().FilthIsInPriorityAreaSafe(filth) || (forced && pawn.Map.GetCleaningManager().FilthIsInCleaningArea(filth)) || (effectiveAreaRestriction != null && effectiveAreaRestriction[filth.Position]))
-			{
-				LocalTargetInfo target = t;
-                var canReserve = pawn.CanReserve(target, 1, -1, null, forced);
-                if(!canReserve)
+
+            if (!pawn.Map.GetCleaningManager().FilthIsInPriorityAreaSafe(filth) &&
+                (!forced || !pawn.Map.GetCleaningManager().FilthIsInCleaningArea(filth)) &&
+                (effectiveAreaRestriction == null || !effectiveAreaRestriction[filth.Position]))
+            {
+                return false;
+            }
+
+            LocalTargetInfo target = t;
+            var canReserve = pawn.CanReserve(target, 1, -1, null, forced);
+            if (canReserve)
+            {
+                return filth.TicksSinceThickened >= MinTicksSinceThickened;
+            }
+
+            filth.Map.GetComponent<CleaningManager_MapComponent>().MarkNeedToRecalculate(filth);
+            return false;
+        }
+
+        public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
+        {
+            var job = new Job(DefDatabase<JobDef>.GetNamed("Clean_Prioritized"));
+            job.AddQueuedTarget(TargetIndex.A, t);
+
+            var map = t.Map;
+            var maxQueued = 15;
+            var room = t.GetRoom();
+            for (var i = 0; i < 100; i++)
+            {
+                var intVec = t.Position + GenRadial.RadialPattern[i];
+                if (!intVec.InBounds(map) || intVec.GetRoom(map) != room)
                 {
-                    filth.Map.GetComponent<CleaningManager_MapComponent>().MarkNeedToRecalculate(filth);
-                    return false;
+                    continue;
                 }
 
-                return filth.TicksSinceThickened >= MinTicksSinceThickened;
-			}
-			return false;
-		}
+                var thingList = intVec.GetThingList(map);
+                foreach (var thing in thingList)
+                {
+                    if (HasJobOnThing(pawn, thing, forced) && thing != t)
+                    {
+                        job.AddQueuedTarget(TargetIndex.A, thing);
+                    }
+                }
 
-		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
-		{
-			Job job = new Job(DefDatabase<JobDef>.GetNamed("Clean_Prioritized"));
-			job.AddQueuedTarget(TargetIndex.A, t);
+                if (job.GetTargetQueue(TargetIndex.A).Count >= maxQueued)
+                {
+                    break;
+                }
+            }
 
-			Map map = t.Map;
-			int maxQueued = 15;
-			Room room = t.GetRoom(RegionType.Set_Passable);
-			for (int i = 0; i < 100; i++)
-			{
-				IntVec3 intVec = t.Position + GenRadial.RadialPattern[i];
-				if (intVec.InBounds(map) && intVec.GetRoom(map, RegionType.Set_Passable) == room)
-				{
-					List<Thing> thingList = intVec.GetThingList(map);
-					for (int j = 0; j < thingList.Count; j++)
-					{
-						Thing thing = thingList[j];
-						if (HasJobOnThing(pawn, thing, forced) && thing != t)
-						{
-							job.AddQueuedTarget(TargetIndex.A, thing);
-						}
-					}
-					if (job.GetTargetQueue(TargetIndex.A).Count >= maxQueued)
-					{
-						break;
-					}
-				}
-			}
-			if (job.targetQueueA != null && job.targetQueueA.Count >= 5)
-			{
-				job.targetQueueA.SortBy((LocalTargetInfo targ) => targ.Cell.DistanceToSquared(pawn.Position));
-			}
-			return job;
-		}
-	}
+            if (job.targetQueueA != null && job.targetQueueA.Count >= 5)
+            {
+                job.targetQueueA.SortBy(targ => targ.Cell.DistanceToSquared(pawn.Position));
+            }
+
+            return job;
+        }
+    }
 }

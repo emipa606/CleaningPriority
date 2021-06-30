@@ -9,5 +9,4 @@
   <CleaningAreaFirst>Filth in this area will be cleaned first.</CleaningAreaFirst>
   <CleaningAreaLast>Filth in this area will the cleaned last.</CleaningAreaLast>
   <CleaningAreaMiddle>Filth in this area will be cleaned after filth in {0} and before filth in {1}</CleaningAreaMiddle>
-
 </LanguageData>

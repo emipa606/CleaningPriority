@@ -1,25 +1,30 @@
-﻿using RimWorld;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
 namespace CleaningPriority
 {
-    class CleaningManager_MapComponent : MapComponent, ICellBoolGiver
+    internal class CleaningManager_MapComponent : MapComponent, ICellBoolGiver
     {
-        private List<Area> priorityList = new List<Area>();
+        private readonly CellBoolDrawer priorityAreasDrawer;
 
         private List<Area> addableAreas = new List<Area>();
-        private bool needToUpdateAddables = true;
-
-        private Area prioritizedArea;
-        private bool needToUpdatePrioritized = true;
-
-        private List<Filth> failedFilths = new List<Filth>();
 
         private ListerFilthInAreas_MapComponent areaFilthLister;
-        private readonly CellBoolDrawer priorityAreasDrawer;
+
+        private List<Filth> failedFilths = new List<Filth>();
+        private bool needToUpdateAddables = true;
+        private bool needToUpdatePrioritized = true;
+
+        private Area prioritizedArea;
+        private List<Area> priorityList = new List<Area>();
+
+        public CleaningManager_MapComponent(Map map) : base(map)
+        {
+            priorityAreasDrawer = new CellBoolDrawer(this, map.Size.x, map.Size.z);
+        }
 
         public int AreaCount => priorityList.Count;
 
@@ -31,42 +36,63 @@ namespace CleaningPriority
         {
             get
             {
-                if (needToUpdatePrioritized)
+                if (!needToUpdatePrioritized)
                 {
-                    ReacalculatePriorityArea();
-                    needToUpdatePrioritized = false;
+                    return prioritizedArea;
                 }
+
+                ReacalculatePriorityArea();
+                needToUpdatePrioritized = false;
+
                 return prioritizedArea;
             }
         }
 
-        public List<Area> PrioritizedAreas
-        {
-            get
-            {
-                return priorityList;
-            }
-        }
+        public List<Area> PrioritizedAreas => priorityList;
 
         public List<Area> AddableAreas
         {
             get
             {
-                if (needToUpdateAddables)
+                if (!needToUpdateAddables)
                 {
-                    addableAreas = map.areaManager.AllAreas.ToList();
-                    addableAreas.RemoveAll(x => priorityList.Contains(x));
-                    needToUpdateAddables = false;
+                    return addableAreas;
                 }
+
+                addableAreas = map.areaManager.AllAreas.ToList();
+                addableAreas.RemoveAll(x => priorityList.Contains(x));
+                needToUpdateAddables = false;
+
                 return addableAreas;
             }
         }
 
         public Color Color => Color.white;
 
-        public CleaningManager_MapComponent(Map map) : base(map)
+        public bool GetCellBool(int index)
         {
-            priorityAreasDrawer = new CellBoolDrawer(this, map.Size.x, map.Size.z);
+            foreach (var area in priorityList)
+            {
+                if (area[index])
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public Color GetCellExtraColor(int index)
+        {
+            foreach (var area in priorityList)
+            {
+                if (area[index])
+                {
+                    return area.Color;
+                }
+            }
+
+            return Color.clear;
         }
 
         public override void ExposeData()
@@ -89,32 +115,37 @@ namespace CleaningPriority
 
         public bool FilthIsInPriorityAreaSafe(Filth filth)
         {
-            return (PrioritizedArea != null) && (PrioritizedArea[filth.Position]);
+            return PrioritizedArea != null && PrioritizedArea[filth.Position];
         }
 
         public IEnumerable<Thing> FilthInCleaningAreas()
         {
-            HashSet<Thing> hashSet = new HashSet<Thing>();
-            for (int i = 0; i < priorityList.Count; i++)
+            var hashSet = new HashSet<Thing>();
+            foreach (var area in priorityList)
             {
-                foreach (Thing filth in areaFilthLister.GetFilthInAreaEnumerator(priorityList[i]))
+                foreach (var filth in areaFilthLister.GetFilthInAreaEnumerator(area))
                 {
                     hashSet.Add(filth);
                 }
             }
+
             return hashSet;
         }
 
         public void AddAreaRange(IEnumerable<Area> rangeToAdd)
         {
-            foreach (Area area in rangeToAdd) priorityList.Insert(0, area);
+            foreach (var area in rangeToAdd)
+            {
+                priorityList.Insert(0, area);
+            }
+
             MarkNeedToRecalculate();
             MarkAddablesOutdated();
         }
 
         public void RemoveAreaRange(IEnumerable<Area> rangeToRemove)
         {
-            priorityList.RemoveAll(x => rangeToRemove.Contains(x));
+            priorityList.RemoveAll(rangeToRemove.Contains);
             EnsureHasAtLeastOneArea();
             MarkNeedToRecalculate();
             MarkAddablesOutdated();
@@ -122,18 +153,22 @@ namespace CleaningPriority
 
         public void ReorderPriorities(int from, int to)
         {
-            Area areaToReorder = priorityList[from];
+            var areaToReorder = priorityList[from];
             priorityList.RemoveAt(from);
-            priorityList.Insert(Mathf.Max(0, (to < from) ? to : to - 1), areaToReorder);
+            priorityList.Insert(Mathf.Max(0, to < from ? to : to - 1), areaToReorder);
             MarkNeedToRecalculate();
         }
 
         public bool FilthIsInCleaningArea(Filth filth)
         {
-            for (int i = 0; i < priorityList.Count; i++)
+            foreach (var area in priorityList)
             {
-                if (priorityList[i][filth.Position]) return true;
+                if (area[filth.Position])
+                {
+                    return true;
+                }
             }
+
             return false;
         }
 
@@ -169,24 +204,6 @@ namespace CleaningPriority
             priorityAreasDrawer.MarkForDraw();
         }
 
-        public bool GetCellBool(int index)
-        {
-            for (int i = 0; i < priorityList.Count; i++)
-            {
-                if (priorityList[i][index]) return true;
-            }
-            return false;
-        }
-
-        public Color GetCellExtraColor(int index)
-        {
-            for (int i = 0; i < priorityList.Count; i++)
-            {
-                if (priorityList[i][index]) return priorityList[i].Color;
-            }
-            return Color.clear;
-        }
-
         private void RemoveNullsInList()
         {
             priorityList.RemoveAll(x => x == null);
@@ -194,23 +211,30 @@ namespace CleaningPriority
 
         private void EnsureHasAtLeastOneArea()
         {
-            if (!priorityList.Any()) AddAreaRange(new List<Area>() { map.areaManager.Home });
+            if (!priorityList.Any())
+            {
+                AddAreaRange(new List<Area> {map.areaManager.Home});
+            }
         }
 
         private void ReacalculatePriorityArea()
         {
             prioritizedArea = null;
-            ListerFilthInAreas_MapComponent filthLister = map.GetListerFilthInAreas();
-            for (int i = 0; i < priorityList.Count; i++)
+            var filthLister = map.GetListerFilthInAreas();
+            foreach (var area in priorityList)
             {
-                foreach (Filth currentFilth in filthLister[priorityList[i]])
+                foreach (var thing in filthLister[area])
                 {
-                    if (!currentFilth.DestroyedOrNull() && !failedFilths.Contains(currentFilth) && currentFilth.TicksSinceThickened >= WorkGiver_CleanFilthPrioritized.MinTicksSinceThickened)
+                    var currentFilth = (Filth) thing;
+                    if (currentFilth.DestroyedOrNull() || failedFilths.Contains(currentFilth) ||
+                        currentFilth.TicksSinceThickened < WorkGiver_CleanFilthPrioritized.MinTicksSinceThickened)
                     {
-                        //if (Prefs.DevMode) Log.Message($"Found filth at {currentFilth.Position} : {currentFilth.thickness} : {currentFilth.TicksSinceThickened} : {WorkGiver_CleanFilthPrioritized.MinTicksSinceThickened}");
-                        prioritizedArea = priorityList[i];
-                        return;
+                        continue;
                     }
+
+                    //if (Prefs.DevMode) Log.Message($"Found filth at {currentFilth.Position} : {currentFilth.thickness} : {currentFilth.TicksSinceThickened} : {WorkGiver_CleanFilthPrioritized.MinTicksSinceThickened}");
+                    prioritizedArea = area;
+                    return;
                 }
             }
         }

@@ -1,73 +1,22 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FDFC9B82-72D5-47BE-AA46-525A65609962}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CleaningPriority</RootNamespace>
-    <AssemblyName>CleaningPriority</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <OutputPath>..\..\1.2\Assemblies</OutputPath>
+    <TargetFramework>net472</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <DebugType>None</DebugType>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\1.2\Assemblies\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="CleaningPriorityInitialization.cs" />
-    <Compile Include="GetMapComponentShorthand.cs" />
-    <Compile Include="JobDriver_CleanPrioritizedFilth.cs" />
-    <Compile Include="ListerFilthInAreas_MapComponent.cs" />
-    <Compile Include="ListerFilthPrioritizedNotifiers\AreaAdded.cs" />
-    <Compile Include="ListerFilthPrioritizedNotifiers\AreaChange.cs" />
-    <Compile Include="ListerFilthPrioritizedNotifiers\AreaInverted.cs" />
-    <Compile Include="ListerFilthPrioritizedNotifiers\AreaRemoved.cs" />
-    <Compile Include="ListerFilthPrioritizedNotifiers\FilthDespawned.cs" />
-    <Compile Include="ListerFilthPrioritizedNotifiers\FilthSpawned.cs" />
-    <Compile Include="CleaningManager_MapComponent.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserInterface\TextureLoader.cs" />
-    <Compile Include="UserInterface\AreaPriorityPlaySettings.cs" />
-    <Compile Include="UserInterface\CleaningPriorityDrawUtility.cs" />
-    <Compile Include="UserInterface\Dialog_CleaningPriority.cs" />
-    <Compile Include="WorkGiver_CleanFilthPrioritized.cs" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref">
-      <Version>1.2.2753</Version>
-<ExcludeAssets>runtime</ExcludeAssets>
+      <Version>*</Version>
+      <ExcludeAssets>runtime</ExcludeAssets>
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Lib.Harmony">
-      <Version>2.0.2</Version>
-<ExcludeAssets>runtime</ExcludeAssets>
+      <Version>*</Version>
+      <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
 </Project>
