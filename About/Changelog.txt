@@ -1,5 +1,8 @@
 # Changelog for CleaningPriority
 
+1.4.1 - Mod updated for 1.4 and passed autotests
+
+
 1.0.11.0 - Rebuild on the 1.3 binaries as some functions changed from the beta
 
 

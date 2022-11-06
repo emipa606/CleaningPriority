@@ -2,15 +2,14 @@
 using HarmonyLib;
 using Verse;
 
-namespace CleaningPriority
+namespace CleaningPriority;
+
+[StaticConstructorOnStartup]
+internal class CleaningPriorityInitialization
 {
-    [StaticConstructorOnStartup]
-    internal class CleaningPriorityInitialization
+    static CleaningPriorityInitialization()
     {
-        static CleaningPriorityInitialization()
-        {
-            var harmony = new Harmony("com.github.chippedchap.cleaningpriority");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
-        }
+        var harmony = new Harmony("com.github.chippedchap.cleaningpriority");
+        harmony.PatchAll(Assembly.GetExecutingAssembly());
     }
 }

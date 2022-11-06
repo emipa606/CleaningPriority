@@ -1,6 +1,6 @@
 # CleaningPriority
 
-![Image](https://i.imgur.com/WAEzk68.png)
+![Image](https://i.imgur.com/buuPQel.png)
 
 Update of ChippedChaps mod
 https://steamcommunity.com/sharedfiles/filedetails/?id=1543157124
@@ -9,25 +9,16 @@ https://steamcommunity.com/sharedfiles/filedetails/?id=1543157124
 - Added correct reservation of filth so pawns dont clean the same filth
 - Pawns that is not allowed in a higher priority cleaning zone should now clean filth in lower priority zones instead of not cleaning at all
 
-![Image](https://i.imgur.com/7Gzt3Rg.png)
+![Image](https://i.imgur.com/pufA0kM.png)
 
-
-[table]
-	[tr]
-		[td]https://invite.gg/Mlie]![Image](https://i.imgur.com/zdzzBrc.png)
-[/td]
-		[td]https://github.com/emipa606/CleaningPriority]![Image](https://i.imgur.com/kTkpTOE.png)
-[/td]
-	[/tr]
-[/table]
 	
-![Image](https://i.imgur.com/NOW7jU1.png)
+![Image](https://i.imgur.com/Z4GOv8H.png)
 
 
 **Legacy 1.0 Version**
 For now, please use the updated version by Mlie here:
 https://steamcommunity.com/sharedfiles/filedetails/?id=2018316486
-I plan to only make my own version if I add any new features - I&apos;m grateful for any unofficial maintenance and I will only supersede unofficial updates until there is a good reason to do so.
+I plan to only make my own version if I add any new features - I'm grateful for any unofficial maintenance and I will only supersede unofficial updates until there is a good reason to do so.
 
 # Allows you to prioritize areas over others for cleaning.
 
@@ -42,21 +33,21 @@ I plan to only make my own version if I add any new features - I&apos;m grateful
 
 **Arbitrary Priorities:** You can pick any area to put on the priority list. You can even remove the home area and add in another custom area and your colonists will stop cleaning the home area and instead clean according to your set priority list.
 
-**Works fine if you don&apos;t care about priority:** The first cleaning area by default will be the home area, so if you don&apos;t touch the priority list at all when playing on a map, colonists will clean like usual.
+**Works fine if you don't care about priority:** The first cleaning area by default will be the home area, so if you don't touch the priority list at all when playing on a map, colonists will clean like usual.
 
 **Additional Notes:**
-There is bit of delay between the current cleaning area updating and new filth being spawned. This is because, like vanilla, colonists won&apos;t clean new dirt (must be 600 ticks after the filth has last thickened).
+There is bit of delay between the current cleaning area updating and new filth being spawned. This is because, like vanilla, colonists won't clean new dirt (must be 600 ticks after the filth has last thickened).
 
-No original game methods have been detoured and the vanilla tracking of filth in the home area still works, so if any mods use this they should be fine. This mod may be incompatible with other cleaning mods. If you&apos;re not sure, try using them together and see if it works!
+No original game methods have been detoured and the vanilla tracking of filth in the home area still works, so if any mods use this they should be fine. This mod may be incompatible with other cleaning mods. If you're not sure, try using them together and see if it works!
 
 The mod will always force you to have at least one cleaning area. If you delete your last cleaning area the Home area will be added to the priority list.
 
-As this is the first version, expect bugs. However, don&apos;t be too scared, they probably won&apos;t corrupt your save and if you uninstall you will get a few errors that can be eliminated by overwriting your savegame. Your colonists will go back to cleaning the home area.
+As this is the first version, expect bugs. However, don't be too scared, they probably won't corrupt your save and if you uninstall you will get a few errors that can be eliminated by overwriting your savegame. Your colonists will go back to cleaning the home area.
 
-**If you like/don&apos;t like this mod, please remember to rate!**
+**If you like/don't like this mod, please remember to rate!**
 
 
-![Image](https://i.imgur.com/Rs6T6cr.png)
+![Image](https://i.imgur.com/PwoNOj4.png)
 
 
 
