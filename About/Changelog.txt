@@ -1,5 +1,8 @@
 # Changelog for CleaningPriority
 
+1.4.2 - Fix for logspam when Dubs Bad hygiene and Map preview is loaded
+
+
 1.4.1 - Mod updated for 1.4 and passed autotests
 
 

@@ -15,7 +15,7 @@ internal class AreaAdded
             return;
         }
 
-        ___map.GetListerFilthInAreas().EnsureAreaHasKey(area);
-        ___map.GetCleaningManager().MarkAddablesOutdated();
+        ___map?.GetListerFilthInAreas()?.EnsureAreaHasKey(area);
+        ___map?.GetCleaningManager()?.MarkAddablesOutdated();
     }
 }
