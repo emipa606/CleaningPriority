@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -21,9 +22,9 @@ internal class Dialog_CleaningPriority : Window
     {
         map = currentMap;
         doCloseX = true;
-        forcePause = true;
-        closeOnClickedOutside = true;
-        absorbInputAroundWindow = true;
+        //forcePause = true;
+        //closeOnClickedOutside = true;
+        //absorbInputAroundWindow = true;
     }
 
     public override Vector2 InitialSize => new Vector2(450f, 400f);
@@ -44,8 +45,6 @@ internal class Dialog_CleaningPriority : Window
             removeQueue.Clear();
         }
 
-        var reorderableGroup = ReorderableWidget.NewGroup(manager.ReorderPriorities, ReorderableDirection.Vertical,
-            inRect, marginBetweenElements);
         IEnumerable<Area> addables = manager.AddableAreas;
         var playerCanAdd = addables.Any();
         var listRect = new Rect(0f, 0f, inRect.width - 20f,
@@ -57,11 +56,27 @@ internal class Dialog_CleaningPriority : Window
         uiLister.Begin(listRect);
         uiLister.ColumnWidth = listRect.width;
         uiLister.Gap(marginBetweenElements);
+        var switchTuple = new Tuple<int, int>(-1, 0);
         for (var i = 0; i < manager.AreaCount; i++)
         {
             var areaIsPriority = manager.PrioritizedArea == manager[i];
-            DoAreaRow(manager[i], uiLister, reorderableGroup, manager.AreaCount, i, areaIsPriority);
+            var result = DoAreaRow(manager[i], uiLister, manager.AreaCount, i, areaIsPriority);
+            switch (result)
+            {
+                case > 0:
+                    switchTuple = new Tuple<int, int>(i, i + 1);
+                    break;
+                case < 0:
+                    switchTuple = new Tuple<int, int>(i, i - 1);
+                    break;
+            }
+
             uiLister.Gap(marginBetweenElements);
+        }
+
+        if (switchTuple.Item1 != -1)
+        {
+            manager.ReorderPriorities(switchTuple.Item1, switchTuple.Item2);
         }
 
         uiLister.End();
@@ -100,11 +115,11 @@ internal class Dialog_CleaningPriority : Window
         return options.Count > 0 ? new FloatMenu(options) : null;
     }
 
-    private void DoAreaRow(Area areaToList, Listing_Standard listing, int group, int count, int priority,
+    private int DoAreaRow(Area areaToList, Listing_Standard listing, int count, int priority,
         bool isPriority)
     {
         var rowRect = listing.GetRect(elementHeight);
-        ReorderableWidget.Reorderable(group, rowRect);
+        var returnvalue = 0;
 
         if (Mouse.IsOver(rowRect))
         {
@@ -113,10 +128,35 @@ internal class Dialog_CleaningPriority : Window
             GUI.color = Color.white;
         }
 
+        Log.Message($"{areaToList}: {count}, {priority}");
         DoAreaTooltip(rowRect, count, priority, isPriority);
 
         var widgetRow = new WidgetRow(rowRect.x, rowRect.y, UIDirection.RightThenUp, rowRect.width);
-        widgetRow.Icon(TextureLoader.dragHash);
+
+        if (count > 1 && priority < count - 1)
+        {
+            if (widgetRow.ButtonIcon(TexButton.ReorderDown))
+            {
+                returnvalue = 1;
+            }
+        }
+        else
+        {
+            widgetRow.ButtonIcon(TexButton.ReorderDown);
+        }
+
+        if (count > 1 && priority > 0)
+        {
+            if (widgetRow.ButtonIcon(TexButton.ReorderUp))
+            {
+                returnvalue = -1;
+            }
+        }
+        else
+        {
+            widgetRow.ButtonIcon(TexButton.ReorderUp);
+        }
+
         widgetRow.Icon(areaToList.ColorTexture);
         widgetRow.LabelWithAnchorAndFont(areaToList.Label, -1, TextAnchor.MiddleLeft, GameFont.Small);
         widgetRow.Gap(rowRect.width - (widgetRow.FinalX - rowRect.x) -
@@ -134,6 +174,8 @@ internal class Dialog_CleaningPriority : Window
         {
             removeQueue.Add(areaToList);
         }
+
+        return returnvalue;
     }
 
     private void DoAreaTooltip(Rect rowRect, int count, int priority, bool isPrioritized)
