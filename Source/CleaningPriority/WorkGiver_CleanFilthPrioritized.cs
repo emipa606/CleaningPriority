@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -22,7 +23,7 @@ internal class WorkGiver_CleanFilthPrioritized : WorkGiver_Scanner
 
     public override bool ShouldSkip(Pawn pawn, bool forced = false)
     {
-        return pawn.Map.GetCleaningManager().FilthInCleaningAreas().EnumerableCount() == 0;
+        return !pawn.Map.GetCleaningManager().FilthInCleaningAreas().Any();
     }
 
     public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -37,9 +38,13 @@ internal class WorkGiver_CleanFilthPrioritized : WorkGiver_Scanner
             return false;
         }
 
+        if (!pawn.Map.GetCleaningManager().FilthInCleaningAreas().Contains(filth))
+        {
+            return false;
+        }
+
         Area effectiveAreaRestriction = null;
-        if (pawn.playerSettings?.EffectiveAreaRestriction != null &&
-            pawn.playerSettings.EffectiveAreaRestriction.TrueCount > 0 &&
+        if (pawn.playerSettings?.EffectiveAreaRestriction is { TrueCount: > 0 } &&
             pawn.playerSettings.EffectiveAreaRestriction.Map == filth.Map)
         {
             effectiveAreaRestriction = pawn.playerSettings.EffectiveAreaRestriction;
@@ -65,12 +70,18 @@ internal class WorkGiver_CleanFilthPrioritized : WorkGiver_Scanner
 
     public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
     {
+        if (!HasJobOnThing(pawn, t, forced))
+        {
+            return null;
+        }
+
         var job = new Job(DefDatabase<JobDef>.GetNamed("Clean_Prioritized"));
         job.AddQueuedTarget(TargetIndex.A, t);
 
         var map = t.Map;
         var maxQueued = 15;
         var room = t.GetRoom();
+
         for (var i = 0; i < 100; i++)
         {
             var intVec = t.Position + GenRadial.RadialPattern[i];

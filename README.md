@@ -59,6 +59,4 @@ As this is the first version, expect bugs. However, don't be too scared, they pr
 -  If you have the solution for a problem, please post it to the GitHub repository.
 
 
-
-
-https://steamcommunity.com/sharedfiles/filedetails/changelog/2018316486]Last updated 2023-05-18
+https://steamcommunity.com/sharedfiles/filedetails/changelog/2018316486]Last updated 2023-07-01

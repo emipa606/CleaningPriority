@@ -128,7 +128,6 @@ internal class Dialog_CleaningPriority : Window
             GUI.color = Color.white;
         }
 
-        Log.Message($"{areaToList}: {count}, {priority}");
         DoAreaTooltip(rowRect, count, priority, isPriority);
 
         var widgetRow = new WidgetRow(rowRect.x, rowRect.y, UIDirection.RightThenUp, rowRect.width);

@@ -1,5 +1,8 @@
 # Changelog for CleaningPriority
 
+1.4.4 - Should now work correctly when removing the home-area
+
+
 1.4.3 - Fixed changing priority of areas.
 Used DeepL to update translations for ChineseSimplified, French, German
 
