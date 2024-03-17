@@ -1,5 +1,8 @@
 # Changelog for CleaningPriority
 
+1.5.0 - Mod updated for 1.5 and passed autotests
+
+
 1.4.4 - Should now work correctly when removing the home-area
 
 

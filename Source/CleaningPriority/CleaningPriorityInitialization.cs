@@ -9,7 +9,6 @@ internal class CleaningPriorityInitialization
 {
     static CleaningPriorityInitialization()
     {
-        var harmony = new Harmony("com.github.chippedchap.cleaningpriority");
-        harmony.PatchAll(Assembly.GetExecutingAssembly());
+        new Harmony("com.github.chippedchap.cleaningpriority").PatchAll(Assembly.GetExecutingAssembly());
     }
 }

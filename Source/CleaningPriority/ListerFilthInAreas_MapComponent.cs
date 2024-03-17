@@ -5,13 +5,9 @@ using Verse;
 
 namespace CleaningPriority;
 
-internal class ListerFilthInAreas_MapComponent : MapComponent
+internal class ListerFilthInAreas_MapComponent(Map map) : MapComponent(map)
 {
     private readonly Dictionary<Area, List<Thing>> filthDictionary = new Dictionary<Area, List<Thing>>();
-
-    public ListerFilthInAreas_MapComponent(Map map) : base(map)
-    {
-    }
 
     public List<Thing> this[Area area]
     {
@@ -107,7 +103,7 @@ internal class ListerFilthInAreas_MapComponent : MapComponent
     {
         if (!filthDictionary.ContainsKey(area))
         {
-            filthDictionary[area] = new List<Thing>();
+            filthDictionary[area] = [];
         }
     }
 

@@ -11,10 +11,10 @@ internal class Dialog_CleaningPriority : Window
     private const float marginBetweenElements = 6f;
     private const float elementHeight = 24f;
     private const float buttonHeight = 30f;
-    private readonly HashSet<Area> addQueue = new HashSet<Area>();
+    private readonly HashSet<Area> addQueue = [];
     private readonly Map map;
 
-    private readonly HashSet<Area> removeQueue = new HashSet<Area>();
+    private readonly HashSet<Area> removeQueue = [];
 
     private Vector2 scrollPos = new Vector2(0, 0);
 

@@ -10,16 +10,16 @@ internal class CleaningManager_MapComponent : MapComponent, ICellBoolGiver
 {
     private readonly CellBoolDrawer priorityAreasDrawer;
 
-    private List<Area> addableAreas = new List<Area>();
+    private List<Area> addableAreas = [];
 
     private ListerFilthInAreas_MapComponent areaFilthLister;
 
-    private List<Filth> failedFilths = new List<Filth>();
+    private List<Filth> failedFilths = [];
     private bool needToUpdateAddables = true;
     private bool needToUpdatePrioritized = true;
 
     private Area prioritizedArea;
-    private List<Area> priorityList = new List<Area>();
+    private List<Area> priorityList = [];
 
     public CleaningManager_MapComponent(Map map) : base(map)
     {
@@ -192,7 +192,7 @@ internal class CleaningManager_MapComponent : MapComponent, ICellBoolGiver
 
     public void MarkNeedToRecalculate()
     {
-        failedFilths = new List<Filth>();
+        failedFilths = [];
         priorityAreasDrawer.SetDirty();
         needToUpdatePrioritized = true;
     }

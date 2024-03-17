@@ -44,10 +44,10 @@ internal class WorkGiver_CleanFilthPrioritized : WorkGiver_Scanner
         }
 
         Area effectiveAreaRestriction = null;
-        if (pawn.playerSettings?.EffectiveAreaRestriction is { TrueCount: > 0 } &&
-            pawn.playerSettings.EffectiveAreaRestriction.Map == filth.Map)
+        if (pawn.playerSettings?.EffectiveAreaRestrictionInPawnCurrentMap is { TrueCount: > 0 } &&
+            pawn.playerSettings.EffectiveAreaRestrictionInPawnCurrentMap.Map == filth.Map)
         {
-            effectiveAreaRestriction = pawn.playerSettings.EffectiveAreaRestriction;
+            effectiveAreaRestriction = pawn.playerSettings.EffectiveAreaRestrictionInPawnCurrentMap;
         }
 
         if (!pawn.Map.GetCleaningManager().FilthIsInPriorityAreaSafe(filth) &&
