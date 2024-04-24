@@ -4,7 +4,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace CleaningPriority;
+namespace RepairingPriority;
 
 internal class CleaningManager_MapComponent : MapComponent, ICellBoolGiver
 {
@@ -97,7 +97,7 @@ internal class CleaningManager_MapComponent : MapComponent, ICellBoolGiver
 
     public override void ExposeData()
     {
-        Scribe_Collections.Look(ref priorityList, "cleaningPriority", LookMode.Reference);
+        Scribe_Collections.Look(ref priorityList, "RepairingPriority", LookMode.Reference);
         RemoveNullsInList();
         EnsureHasAtLeastOneArea();
     }
