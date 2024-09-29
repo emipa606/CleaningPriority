@@ -1,4 +1,4 @@
-# CleaningPriority
+# [Cleaning Priority (Continued)](https://steamcommunity.com/sharedfiles/filedetails/?id=2018316486)
 
 ![Image](https://i.imgur.com/buuPQel.png)
 
@@ -8,12 +8,11 @@ https://steamcommunity.com/sharedfiles/filedetails/?id=1543157124
 - Added Russian Translation, by Vladimir Saenko 
 - Added correct reservation of filth so pawns dont clean the same filth
 - Pawns that is not allowed in a higher priority cleaning zone should now clean filth in lower priority zones instead of not cleaning at all
+- There's a soft incompatibility with Dubs Bad Hygiene: pawns clean outside of the designated zone. Turning off "prefer indoor cleaning" in DBH options solves the problem.
 
 ![Image](https://i.imgur.com/pufA0kM.png)
-
 	
 ![Image](https://i.imgur.com/Z4GOv8H.png)
-
 
 **Legacy 1.0 Version**
 For now, please use the updated version by Mlie here:
@@ -53,13 +52,12 @@ As this is the first version, expect bugs. However, don't be too scared, they pr
 
 -  See if the the error persists if you just have this mod and its requirements active.
 -  If not, try adding your other mods until it happens again.
--  Post your error-log using https://steamcommunity.com/workshop/filedetails/?id=818773962]HugsLib or the standalone https://steamcommunity.com/sharedfiles/filedetails/?id=2873415404]Uploader and command Ctrl+F12
+-  Post your error-log using [HugsLib](https://steamcommunity.com/workshop/filedetails/?id=818773962) or the standalone [Uploader](https://steamcommunity.com/sharedfiles/filedetails/?id=2873415404) and command Ctrl+F12
 -  For best support, please use the Discord-channel for error-reporting.
 -  Do not report errors by making a discussion-thread, I get no notification of that.
 -  If you have the solution for a problem, please post it to the GitHub repository.
--  Use https://github.com/RimSort/RimSort/releases/latest]RimSort to sort your mods
+-  Use [RimSort](https://github.com/RimSort/RimSort/releases/latest) to sort your mods
 
 
 
-https://steamcommunity.com/sharedfiles/filedetails/changelog/2018316486]![Image](https://img.shields.io/github/v/release/emipa606/CleaningPriority?label=latest%20version&style=plastic&color=9f1111&labelColor=black)
-
+[![Image](https://img.shields.io/github/v/release/emipa606/CleaningPriority?label=latest%20version&style=plastic&color=9f1111&labelColor=black)](https://steamcommunity.com/sharedfiles/filedetails/changelog/2018316486)

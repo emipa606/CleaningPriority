@@ -30,6 +30,7 @@ https://steamcommunity.com/sharedfiles/filedetails/?id=1543157124
 - Added Russian Translation, by Vladimir Saenko 
 - Added correct reservation of filth so pawns dont clean the same filth
 - Pawns that is not allowed in a higher priority cleaning zone should now clean filth in lower priority zones instead of not cleaning at all
+- There's a soft incompatibility with Dubs Bad Hygiene: pawns clean outside of the designated zone. Turning off "prefer indoor cleaning" in DBH options solves the problem.
 
 [img]https://i.imgur.com/pufA0kM.png[/img]
 
@@ -88,5 +89,5 @@ As this is the first version, expect bugs. However, don't be too scared, they pr
 [/list]
 
 [url=https://steamcommunity.com/sharedfiles/filedetails/changelog/2018316486][img]https://img.shields.io/github/v/release/emipa606/CleaningPriority?label=latest%20version&amp;style=plastic&amp;color=9f1111&amp;labelColor=black[/img][/url]</description>
-  <modVersion IgnoreIfNoMatchingField="True">1.5.1</modVersion>
+  <modVersion IgnoreIfNoMatchingField="True">1.5.2</modVersion>
 </ModMetaData>

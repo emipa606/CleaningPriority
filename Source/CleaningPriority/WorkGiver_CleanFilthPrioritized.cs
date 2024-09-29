@@ -28,7 +28,7 @@ internal class WorkGiver_CleanFilthPrioritized : WorkGiver_Scanner
 
     public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
     {
-        if (pawn.Faction != Faction.OfPlayer)
+        if (pawn.Faction != Faction.OfPlayer && !pawn.IsPrisonerOfColony)
         {
             return false;
         }

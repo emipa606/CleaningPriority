@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <OpenCleaningPriorityDialog>Open cleaning priorities window.\n\nHere you can set which areas colonists will clean first, last or anything in between.</OpenCleaningPriorityDialog>
   <AddAreaAsCleaningArea>Click to add an area to prioritize for cleaning.\n\nIf you are confused about which areas are prioritized, hover over each area in the list and read the tooltips.</AddAreaAsCleaningArea>

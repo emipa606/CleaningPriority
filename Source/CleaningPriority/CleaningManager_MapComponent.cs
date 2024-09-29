@@ -4,7 +4,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace RepairingPriority;
+namespace CleaningPriority;
 
 internal class CleaningManager_MapComponent : MapComponent, ICellBoolGiver
 {
