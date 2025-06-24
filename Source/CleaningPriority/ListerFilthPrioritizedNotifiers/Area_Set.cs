@@ -3,9 +3,8 @@ using Verse;
 
 namespace CleaningPriority.ListerFilthPrioritizedNotifiers;
 
-[HarmonyPatch(typeof(Area))]
-[HarmonyPatch("Set")]
-internal class AreaChange
+[HarmonyPatch(typeof(Area), "Set")]
+internal class Area_Set
 {
     private static void Postfix(Area __instance, AreaManager ___areaManager, IntVec3 c, bool val)
     {

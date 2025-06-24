@@ -4,9 +4,8 @@ using Verse;
 
 namespace CleaningPriority.ListerFilthPrioritizedNotifiers;
 
-[HarmonyPatch(typeof(ListerFilthInHomeArea))]
-[HarmonyPatch("Notify_FilthSpawned")]
-internal class FilthSpawned
+[HarmonyPatch(typeof(ListerFilthInHomeArea), nameof(ListerFilthInHomeArea.Notify_FilthSpawned))]
+internal class ListerFilthInHomeArea_Notify_FilthSpawned
 {
     private static void Postfix(Map ___map, Filth f)
     {

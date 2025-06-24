@@ -4,9 +4,8 @@ using Verse;
 
 namespace CleaningPriority.ListerFilthPrioritizedNotifiers;
 
-[HarmonyPatch(typeof(AreaManager))]
-[HarmonyPatch("TryMakeNewAllowed")]
-internal class AreaAdded
+[HarmonyPatch(typeof(AreaManager), nameof(AreaManager.TryMakeNewAllowed))]
+internal class AreaManager_TryMakeNewAllowed
 {
     private static void Postfix(Map ___map, bool __result, Area_Allowed area)
     {

@@ -7,7 +7,7 @@ namespace CleaningPriority;
 
 internal class ListerFilthInAreas_MapComponent(Map map) : MapComponent(map)
 {
-    private readonly Dictionary<Area, List<Thing>> filthDictionary = new Dictionary<Area, List<Thing>>();
+    private readonly Dictionary<Area, List<Thing>> filthDictionary = new();
 
     public List<Thing> this[Area area]
     {
@@ -25,7 +25,7 @@ internal class ListerFilthInAreas_MapComponent(Map map) : MapComponent(map)
             EnsureAreaHasKey(area);
         }
 
-        RegenerateDictionary();
+        regenerateDictionary();
     }
 
     public IEnumerable<Thing> GetFilthInAreaEnumerator(Area area)
@@ -92,10 +92,7 @@ internal class ListerFilthInAreas_MapComponent(Map map) : MapComponent(map)
 
     public void OnAreaDeleted(Area deletedArea)
     {
-        if (filthDictionary.ContainsKey(deletedArea))
-        {
-            filthDictionary.Remove(deletedArea);
-        }
+        filthDictionary.Remove(deletedArea);
     }
 
 
@@ -107,7 +104,7 @@ internal class ListerFilthInAreas_MapComponent(Map map) : MapComponent(map)
         }
     }
 
-    private void RegenerateDictionary()
+    private void regenerateDictionary()
     {
         foreach (var cell in map.AllCells)
         {

@@ -8,7 +8,7 @@ namespace CleaningPriority;
 
 internal class WorkGiver_CleanFilthPrioritized : WorkGiver_Scanner
 {
-    public static readonly int MinTicksSinceThickened = 600;
+    public const int MinTicksSinceThickened = 600;
 
     public override PathEndMode PathEndMode => PathEndMode.Touch;
 
@@ -79,7 +79,7 @@ internal class WorkGiver_CleanFilthPrioritized : WorkGiver_Scanner
         job.AddQueuedTarget(TargetIndex.A, t);
 
         var map = t.Map;
-        var maxQueued = 15;
+        const int maxQueued = 15;
         var room = t.GetRoom();
 
         for (var i = 0; i < 100; i++)

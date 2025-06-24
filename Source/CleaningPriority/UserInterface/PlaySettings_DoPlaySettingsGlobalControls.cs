@@ -6,9 +6,8 @@ using Verse.Sound;
 
 namespace CleaningPriority.UserInterface;
 
-[HarmonyPatch(typeof(PlaySettings))]
-[HarmonyPatch("DoPlaySettingsGlobalControls")]
-internal class AreaPriorityPlaySettings
+[HarmonyPatch(typeof(PlaySettings), nameof(PlaySettings.DoPlaySettingsGlobalControls))]
+internal class PlaySettings_DoPlaySettingsGlobalControls
 {
     public static bool showingPrioritySettings = false;
 
@@ -27,7 +26,7 @@ internal class AreaPriorityPlaySettings
             Find.CurrentMap.GetCleaningManager().MarkAllForDraw();
         }
 
-        if (!row.ButtonIcon(TextureLoader.priorityWindowButton, "OpenCleaningPriorityDialog".Translate()))
+        if (!row.ButtonIcon(TextureLoader.PriorityWindowButton, "OpenCleaningPriorityDialog".Translate()))
         {
             return;
         }

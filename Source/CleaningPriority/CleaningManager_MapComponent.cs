@@ -41,7 +41,7 @@ internal class CleaningManager_MapComponent : MapComponent, ICellBoolGiver
                 return prioritizedArea;
             }
 
-            ReacalculatePriorityArea();
+            recalculatePriorityArea();
             needToUpdatePrioritized = false;
 
             return prioritizedArea;
@@ -98,7 +98,7 @@ internal class CleaningManager_MapComponent : MapComponent, ICellBoolGiver
     public override void ExposeData()
     {
         Scribe_Collections.Look(ref priorityList, "RepairingPriority", LookMode.Reference);
-        RemoveNullsInList();
+        removeNullsInList();
         EnsureHasAtLeastOneArea();
     }
 
@@ -202,7 +202,7 @@ internal class CleaningManager_MapComponent : MapComponent, ICellBoolGiver
         priorityAreasDrawer.MarkForDraw();
     }
 
-    private void RemoveNullsInList()
+    private void removeNullsInList()
     {
         priorityList.RemoveAll(x => x == null);
     }
@@ -215,7 +215,7 @@ internal class CleaningManager_MapComponent : MapComponent, ICellBoolGiver
         }
     }
 
-    private void ReacalculatePriorityArea()
+    private void recalculatePriorityArea()
     {
         prioritizedArea = null;
         var filthLister = map.GetListerFilthInAreas();
@@ -230,7 +230,6 @@ internal class CleaningManager_MapComponent : MapComponent, ICellBoolGiver
                     continue;
                 }
 
-                //if (Prefs.DevMode) Log.Message($"Found filth at {currentFilth.Position} : {currentFilth.thickness} : {currentFilth.TicksSinceThickened} : {WorkGiver_CleanFilthPrioritized.MinTicksSinceThickened}");
                 prioritizedArea = area;
                 return;
             }

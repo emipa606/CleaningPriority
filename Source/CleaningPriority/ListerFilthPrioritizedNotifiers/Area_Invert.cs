@@ -3,9 +3,8 @@ using Verse;
 
 namespace CleaningPriority.ListerFilthPrioritizedNotifiers;
 
-[HarmonyPatch(typeof(Area))]
-[HarmonyPatch("Invert")]
-internal class AreaInverted
+[HarmonyPatch(typeof(Area), nameof(Area.Invert))]
+internal class Area_Invert
 {
     private static void Prefix(Area __instance)
     {

@@ -3,9 +3,8 @@ using Verse;
 
 namespace CleaningPriority.ListerFilthPrioritizedNotifiers;
 
-[HarmonyPatch(typeof(AreaManager))]
-[HarmonyPatch("NotifyEveryoneAreaRemoved")]
-internal class AreaRemoved
+[HarmonyPatch(typeof(AreaManager), "NotifyEveryoneAreaRemoved")]
+internal class AreaManager_NotifyEveryoneAreaRemoved
 {
     private static void Postfix(Map ___map, Area area)
     {
