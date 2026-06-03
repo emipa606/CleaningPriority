@@ -4,13 +4,16 @@ namespace CleaningPriority;
 
 internal static class GetMapComponentShorthand
 {
-    public static CleaningManager_MapComponent GetCleaningManager(this Map map)
+    extension(Map map)
     {
-        return map.GetComponent<CleaningManager_MapComponent>();
-    }
+        public CleaningManager_MapComponent GetCleaningManager()
+        {
+            return map.GetComponent<CleaningManager_MapComponent>();
+        }
 
-    public static ListerFilthInAreas_MapComponent GetListerFilthInAreas(this Map map)
-    {
-        return map.GetComponent<ListerFilthInAreas_MapComponent>();
+        public ListerFilthInAreas_MapComponent GetListerFilthInAreas()
+        {
+            return map.GetComponent<ListerFilthInAreas_MapComponent>();
+        }
     }
 }

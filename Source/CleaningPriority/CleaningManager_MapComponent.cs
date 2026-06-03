@@ -151,6 +151,14 @@ internal class CleaningManager_MapComponent : MapComponent, ICellBoolGiver
         MarkAddablesOutdated();
     }
 
+    public void SetPriorityAreas(IEnumerable<Area> orderedAreas)
+    {
+        priorityList = orderedAreas.Where(area => area != null).Distinct().ToList();
+        EnsureHasAtLeastOneArea();
+        MarkNeedToRecalculate();
+        MarkAddablesOutdated();
+    }
+
     public void ReorderPriorities(int from, int to)
     {
         (priorityList[from], priorityList[to]) = (priorityList[to], priorityList[from]);
