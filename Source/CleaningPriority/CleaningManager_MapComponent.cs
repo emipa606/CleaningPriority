@@ -227,8 +227,13 @@ internal class CleaningManager_MapComponent : MapComponent, ICellBoolGiver
     {
         prioritizedArea = null;
         var filthLister = map.GetListerFilthInAreas();
+        var maxFilthCount = 0;
+
+        var areaPrio = 0;
         foreach (var area in priorityList)
         {
+            areaPrio++;
+            var filthCount = 0;
             foreach (var thing in filthLister[area])
             {
                 var currentFilth = (Filth)thing;
@@ -238,9 +243,18 @@ internal class CleaningManager_MapComponent : MapComponent, ICellBoolGiver
                     continue;
                 }
 
-                prioritizedArea = area;
-                return;
+                filthCount++;
             }
+
+            filthCount /= areaPrio * areaPrio; // Divide by priority to give higher priority areas more weight
+
+            if (filthCount <= maxFilthCount)
+            {
+                continue;
+            }
+
+            maxFilthCount = filthCount;
+            prioritizedArea = area;
         }
     }
 }

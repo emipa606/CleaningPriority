@@ -60,4 +60,4 @@ As this is the first version, expect bugs. However, don't be too scared, they pr
 
  
 
-[![Image](https://img.shields.io/github/v/release/emipa606/CleaningPriority?label=latest%20version&style=plastic&color=9f1111&labelColor=black)](https://steamcommunity.com/sharedfiles/filedetails/changelog/2018316486) | tags: priorities, dirt
+[![Image](https://img.shields.io/github/v/release/emipa606/CleaningPriority?label=latest%20version&style=plastic&color=9f1111&labelColor=black)](https://steamcommunity.com/sharedfiles/filedetails/changelog/2018316486) | tags: dirt, priorities

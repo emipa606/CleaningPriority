@@ -1,48 +1,58 @@
-# GitHub Copilot Instructions for the Cleaning Priority (Continued) Mod
+# GitHub Copilot Instructions for Cleaning Priority (Continued)
 
 ## Mod Overview and Purpose
-Cleaning Priority (Continued) is a mod for RimWorld that allows players to assign custom cleaning priorities to different areas, providing greater control over their colony's cleaning efforts. The mod updates the original by ChippedChap and adds new features such as correct reservation of filth and compatibility adjustments for Russian translations.
+
+**Mod Name:** Cleaning Priority (Continued)  
+**Author:** Mlie  
+**Package ID:** Mlie.CleaningPriority
+
+The "Cleaning Priority (Continued)" mod is an enhancement and maintenance update of the original mod by ChippedChap. The mod aims to give players more control over the cleaning priorities of their colonists in RimWorld, allowing specific areas to be prioritized over others. This is especially useful in maintaining high-traffic or critical areas like hospitals or kitchens clean at all times.
 
 ## Key Features and Systems
 
-### Priority Cleaning
-- **Objective:** Prioritize colonist cleaning tasks by assigning specific areas to different priority levels.
-- **Usage:** Through an in-game menu accessible via a broom icon, players can set priority levels for different areas, ensuring essential places like hospitals are cleaned before less critical zones.
-
-### Arbitrary Priorities
-- **Customization:** Players can create custom priority lists, removing default home areas from priority if desired. 
-- **Flexibility:** Regardless of the list's configuration, colonists will clean according to this custom priority system.
-
-### Delays and Filth Tracking
-- **Delay Handling:** Adds a slight delay in recognizing new dirt, akin to vanilla mechanics, necessitating filth presence for 600 ticks before action.
-
-### Compatibility
-- **Integrations:** Maintains vanilla filth tracking and ensures no core methods are detoured, promoting seamless operation with other mods.
-- **Incompatibilities:** Some interaction issues with mods like Dubs Bad Hygiene, but resolved by tweaking specific settings.
+- **Priority Cleaning:** Allows players to assign cleaning priorities to different areas. Colonists will clean higher-priority areas first.
+- **Arbitrary Priorities:** Custom areas can be prioritized for cleaning over default home areas, ensuring adaptable cleaning behavior.
+- **Default Behavior Compatibility:** If the priority system is not adjusted, colonists will clean using the default home area cleaning behavior.
+- **Ease of Use:** The mod provides a user interface via the broom icon to manage cleaning priorities easily.
+- **Compatibility:** Filth tracking does not detour vanilla methods, maintaining compatibility with other mods that use vanilla cleaning mechanisms.
 
 ## Coding Patterns and Conventions
-- **Class Accessibility:** Utilize `internal` keyword for encapsulation unless broader access is necessary.
-- **Naming Conventions:** Descriptive C# naming for clarity, e.g., `Area_Set`, `JobDriver_CleanPrioritizedFilth`.
-- **Separation of Concerns:** Follow single-responsibility principles within components, e.g., `ListerFilthInHomeArea_Notify_FilthSpawned` focuses on filth events.
+
+- **C# Patterns:** Object-oriented design principles are used extensively. Classes like `CleaningManager_MapComponent` manage the priority logic and state.
+- **Method Naming:** Methods follow a CamelCase naming convention and are descriptive of their functionality, e.g., `EnsureHasAtLeastOneArea()`.
+- **Members and Types:** A combination of data structures is used for maintaining lists of areas and priorities, utilizing Lists and Dictionaries.
 
 ## XML Integration
-- **Purpose:** Allow for the definition and modification of game definitions, such as structured data that represents area priorities.
-- **Usage:** XML files specify mod metadata, translations, and configurations that are read at runtime.
+
+- **Patch Structure:** XML files like `WorkGiverPatch.xml` are used for Harmony patching and integrating with the game’s job driver and work types.
+- **Localization:** XML files are also utilized for localizing content and integrating a Russian translation provided by Vladimir Saenko.
 
 ## Harmony Patching
-- **Avoidance:** Avoid direct method detours to preserve compatibility. Use Harmony patches selectively where necessary to inject custom logic without altering original game code.
+
+The mod uses Harmony, a library for patching methods in compiled assemblies, allowing non-invasive patches to RimWorld's existing functionality. For this mod:
+
+- **Patch Locations:** XML and starting methods (`CleaningPriorityInitialization.cs`) are patched to introduce new cleaning logic.
+- **Compatibility:** Ensures no original game methods are fully detoured, keeping it compatible with older tracking systems.
 
 ## Suggestions for Copilot
-1. **Prioritize Crafting Helper Methods:** Implement quick utility methods for managing 'area' collections and priority order processing.
-2. **Refactorism Proposals:** Copilot should suggest breaking down complex tasks in classes like `CleaningManager_MapComponent` into smaller helper methods. 
-3. **Unit Tests:** Generate ideas for unit test scaffolds that evaluate core functionalities such as filth prioritization logic.
-4. **Feasible Feature Suggestions:** Leverage Copilot for brainstorming possible new features or optimizations, like enhanced UI for priority settings.
+
+1. **Code Completion:** Suggest auto-completion for repetitive patterns in method definitions and member variables.
+
+2. **Refactoring Help:** Provide suggestions for refactoring long methods into smaller, more manageable functions to improve readability.
+
+3. **Enhancement Ideas:** Propose adding features, such as setting a timeout for how long an area remains prioritized or feedback mechanisms for when priority lists become too cluttered.
+
+4. **Error Handling:** Recommend adding more structured error-handling patterns when interfacing with the game's API, to manage potential conflicts with other mods effectively.
+
+5. **Translation Extension:** Assist in expanding additional translations or creating templates for easier integration of multiple languages beyond the current Russian translation.
 
 ## Additional Notes
-- **Stability:** Soft-incompatibilities and expected bugs in early versions should be anticipated; however, they rarely corrupt saves.
-- **Feedback and Bugs:** Users encountering issues should isolate mod conflicts and report logs through recommended channels.
 
-Keep exploring modding possibilities for broader cleaning task management within RimWorld for improved colony micro-management!
+- **Compatibility Tips:** If issues arise, strip the mod list down to core dependencies and reintroduce other mods incrementally.
+- **Bug Reporting:** Encourage use of the Discord channel for support and the in-game log uploader for debugging assistance.
+- **User Guidance:** Highlight the usage of RimSort for organizing mods, ensuring they are loaded in a compatible order.
+
+By following these guidelines and leveraging GitHub Copilot effectively, developers can ensure the mod remains robust, maintainable, and enjoyable for users.
 
 ## Project Solution Guidelines
 - Relevant mod XML files are included as Solution Items under the solution folder named XML, these can be read and modified from within the solution.
@@ -51,3 +61,9 @@ Keep exploring modding possibilities for broader cleaning task management within
 - When making functional changes in this mod, ensure the documented features stay in sync with implementation; use the in-solution `.github` copy as the primary file.
 - In the solution is also a project called Assembly-CSharp, containing a read-only version of the decompiled game source, for reference and debugging purposes.
 - For any new documentation, update this copilot-instructions.md file rather than creating separate documentation files.
+
+
+## Hard rules (must follow)
+- Do NOT run commands that modify the repo (no git commit, git apply, dotnet format) unless explicitly asked.
+- Prefer minimal reads: read only the smallest code region needed (around the suspicious lines).
+
