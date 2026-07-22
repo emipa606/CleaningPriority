@@ -2,7 +2,7 @@
 <ModMetaData>
   <name>Cleaning Priority (Continued)</name>
   <packageId>Mlie.CleaningPriority</packageId>
-  <author>Mlie</author>
+  <author>ChippedChap</author>
   <url>https://github.com/emipa606/CleaningPriority</url>
   <supportedVersions>
     <li>1.0</li>
@@ -90,5 +90,5 @@ As this is the first version, expect bugs. However, don't be too scared, they pr
 [/list] 
 
 [url=https://steamcommunity.com/sharedfiles/filedetails/changelog/2018316486][img]https://img.shields.io/github/v/release/emipa606/CleaningPriority?label=latest%20version&amp;style=plastic&amp;color=9f1111&amp;labelColor=black[/img][/url] | tags: dirt, priorities</description>
-  <modVersion IgnoreIfNoMatchingField="True">1.6.2</modVersion>
+  <modVersion IgnoreIfNoMatchingField="True">1.6.3</modVersion>
 </ModMetaData>

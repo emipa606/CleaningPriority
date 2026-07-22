@@ -1,5 +1,8 @@
 # Changelog for CleaningPriority
 
+1.6.3 - Fixed wrong author name
+
+
 1.6.2 - Should now treat filth in area according to priority but still be able to clean up filth in lower prio areas if the amount is high enough
 
 
