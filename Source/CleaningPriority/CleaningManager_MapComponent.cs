@@ -10,8 +10,6 @@ internal class CleaningManager_MapComponent : MapComponent, ICellBoolGiver
 {
     private readonly CellBoolDrawer priorityAreasDrawer;
 
-    private List<Area> addableAreas = [];
-
     private ListerFilthInAreas_MapComponent areaFilthLister;
 
     private List<Filth> failedFilths = [];
@@ -56,16 +54,16 @@ internal class CleaningManager_MapComponent : MapComponent, ICellBoolGiver
         {
             if (!needToUpdateAddables)
             {
-                return addableAreas;
+                return field;
             }
 
-            addableAreas = map.areaManager.AllAreas.ToList();
-            addableAreas.RemoveAll(x => priorityList.Contains(x));
+            field = map.areaManager.AllAreas.ToList();
+            field.RemoveAll(x => priorityList.Contains(x));
             needToUpdateAddables = false;
 
-            return addableAreas;
+            return field;
         }
-    }
+    } = [];
 
     public Color Color => Color.white;
 

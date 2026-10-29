@@ -4,9 +4,9 @@ using Verse;
 namespace CleaningPriority.ListerFilthPrioritizedNotifiers;
 
 [HarmonyPatch(typeof(Area), nameof(Area.Invert))]
-internal class Area_Invert
+internal static class Area_Invert
 {
-    private static void Prefix(Area __instance)
+    public static void Prefix(Area __instance)
     {
         var lister = __instance.Map.GetListerFilthInAreas();
         foreach (var cell in __instance.Map.AllCells)

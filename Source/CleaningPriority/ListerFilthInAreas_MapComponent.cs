@@ -86,7 +86,7 @@ internal class ListerFilthInAreas_MapComponent(Map map) : MapComponent(map)
         }
         else
         {
-            filthDictionary[area].RemoveAll(x => thingsInCell.Contains(x));
+            filthDictionary[area].RemoveAll(thingsInCell.Contains);
         }
     }
 

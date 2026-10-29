@@ -4,7 +4,7 @@ using Verse;
 namespace CleaningPriority.UserInterface;
 
 [StaticConstructorOnStartup]
-internal class TextureLoader
+internal static class TextureLoader
 {
     public static readonly Texture2D PriorityWindowButton = ContentFinder<Texture2D>.Get("cleanPrioritiesIcon");
     public static readonly Texture2D Delete = ContentFinder<Texture2D>.Get("UI/Buttons/Delete");

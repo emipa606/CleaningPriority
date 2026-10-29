@@ -1,42 +1,14 @@
 using System.Collections.Generic;
-using System.Linq;
 using HarmonyLib;
 using RimWorld;
-using RimWorld.Planet;
 using Verse;
 
 namespace CleaningPriority.ListerFilthPrioritizedNotifiers;
 
-[HarmonyPatch(typeof(Gravship), "CopyAreas")]
-internal class Gravship_CopyAreas
-{
-    private static void Prefix(Map oldMap, HashSet<IntVec3> engineFloors)
-    {
-        if (!ModsConfig.OdysseyActive || oldMap == null || engineFloors == null)
-        {
-            return;
-        }
-
-        var manager = oldMap.GetCleaningManager();
-        if (manager == null)
-        {
-            return;
-        }
-
-        var labels = manager.PrioritizedAreas
-            .Where(area => area != null && area.ActiveCells.Any(engineFloors.Contains))
-            .Select(area => area.Label)
-            .Distinct()
-            .ToList();
-
-        Current.Game?.World?.GetComponent<GravshipPriorityTransferState>()?.CapturePriorities(labels);
-    }
-}
-
 [HarmonyPatch(typeof(GravshipPlacementUtility), "CopyAreasIntoMap")]
-internal class GravshipPlacementUtility_CopyAreasIntoMap
+internal static class GravshipPlacementUtility_CopyAreasIntoMap
 {
-    private static void Postfix(Map map)
+    public static void Postfix(Map map)
     {
         if (!ModsConfig.OdysseyActive || map == null)
         {
@@ -44,7 +16,7 @@ internal class GravshipPlacementUtility_CopyAreasIntoMap
         }
 
         var transfer = Current.Game?.World?.GetComponent<GravshipPriorityTransferState>();
-        if (transfer == null || !transfer.HasCapturedPriorities)
+        if (transfer is not { HasCapturedPriorities: true })
         {
             return;
         }

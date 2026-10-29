@@ -1,5 +1,8 @@
 # Changelog for CleaningPriority
 
+1.7.0 - Mod updated for 1.7 and passed autotests
+
+
 1.6.3 - Fixed wrong author name
 
 
